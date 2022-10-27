@@ -25,9 +25,7 @@ const addResearch=async(req,res)=>{
         })
 
        try {
-        await db.promise().query(`INSERT INTO USERS VALUES('${name}',
-                            '${password}'
-        )`);
+        await db.promise().query(`INSERT INTO USERS VALUES('${name}', '${roll_no}', '${dept_id}', '${password}' )`);
        } catch (error) {
         console.log(error, 'while storing the scholar in sql database');
        }
