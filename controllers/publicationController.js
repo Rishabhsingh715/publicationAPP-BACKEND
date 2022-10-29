@@ -1,12 +1,11 @@
-import Publications from "../models/publicationModel.js"
-import mongoose from "mongoose";
-const ObjectId = mongoose.Types.ObjectId;
+import {db} from './database.js';
 
 const getAllPublication = async (req, res) => {
     try {
-        const publication = await Publications.find({})
+        let publication =  await db.promise().query(`SELECT * FROM publication`);
+        
         if (publication) {
-            res.status(200).json(publication)
+            res.status(200).json(publication[0])
         } else {
             res.status(400).json({ message: 'publications not found' })
         }
@@ -18,13 +17,15 @@ const getAllPublication = async (req, res) => {
 const addPublication = async (req, res) => {
     try {
         const {scholar,papertitle,pp,conference,department,faculity,journal } = req.body
-        const publication = await Publications.create({scholar,papertitle,pp,conference,department,faculity,journal })
-
-        if (publication) {
-            res.status(200).json(publication)
-        } else {
-            res.status(500).json({ message: 'something went wrong' })
-        }
+        // console.log(req.body, 'is the body');
+        try {
+            await db.promise().query(`INSERT INTO publication VALUES('${scholar}','${papertitle}','${pp}',
+            '${conference}','${department}','${faculity}','${journal}')`);
+           } catch (error) {
+            console.log(error, 'while storing the publication in sql database');
+           }
+        
+        res.status(200);
     } catch (error) {
         res.status(500).json(error)
     }

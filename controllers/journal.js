@@ -1,9 +1,9 @@
-import Journal from '../models/journalsModel.js'
+import {db} from './database.js';
 
 const getAlljournals=async(req,res)=>{
     try {
-        let journals=await Journal.find({})
-        res.status(200).json(journals)
+        let JOURNAL =  await db.promise().query(`SELECT * FROM JOURNAL`);
+        res.status(200).json(JOURNAL[0])
     } catch (error) {
         res.status(500).json(error)
     }
@@ -12,8 +12,12 @@ const getAlljournals=async(req,res)=>{
 const addjournals=async(req,res)=>{
     try {
         let {jour_name,jour_id}=req.body
-        let journals=await Journal.create({jour_name,jour_id})
-        res.status(200).json(journals)
+        try {
+            await db.promise().query(`INSERT INTO JOURNAL VALUES('${jour_name}','${jour_id}' )`);
+           } catch (error) {
+            console.log(error, 'while storing the JOURNAL in sql database');
+           }
+        res.status(200);
     } catch (error) {
         res.status(500).json(error)
     }

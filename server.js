@@ -19,21 +19,23 @@ var corsOptions = {
     origin: 'http://localhost:4200',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
-const uri='mongodb://localhost:27017/mydb'
-const connectDB=async()=>{
-    try{
-        const conn= await mongoose.connect(uri,{
-            useUnifiedTopology:true,
-            useNewUrlParser:true,
-        })
-        console.log(`MongoDB connected:${conn.connection.host}`);
-    }catch(error){
-        console.log(`error:${error.message}`);
-        process.exit(1)
-    }
-}
 
-connectDB();
+  //uncomment for mongoDB
+// const uri='mongodb://localhost:27017/mydb'
+// const connectDB=async()=>{
+//     try{
+//         const conn= await mongoose.connect(uri,{
+//             useUnifiedTopology:true,
+//             useNewUrlParser:true,
+//         })
+//         console.log(`MongoDB connected:${conn.connection.host}`);
+//     }catch(error){
+//         console.log(`error:${error.message}`);
+//         process.exit(1)
+//     }
+// }
+
+// connectDB();
 // app.use(cors('*'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
